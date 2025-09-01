@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <meta name="generator" content="GrapesJS Studio">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">  
+  </head>
+  <body><section id="ilbe" class="excel-title-section">
+    <div id="i1qf" class="title-container">
+      <h1 id="i43m" class="gjs-t-h1 excel-title">{{ excel_title }}</h1></div><section id="iuhq" class="visual-graphic-box"><div id="iblek" class="graphic-container"><div id="i7nte" class="graphic-header"><h2 id="isqub" class="graphic-title">Data Analysis Overview</h2><p id="ixa1d" class="graphic-subtitle">Real-time insights from {{ excel_title }}</p></div><div id="ioh3s" class="data-grid">
+        
+      <div id="idj4n" class="data-card">
+        <div class="data-label">Température moyenne</div>
+        <div class="data-value">{{ avg_temperature }} °C</div>
+        <div class="data-bar">
+          <div class="data-bar-fill bar-primary"></div>
+        </div>
+      </div>
+
+      <div id="ir3nb" class="data-card">
+        <div class="data-label">Humidité moyenne</div>
+        <div class="data-value">{{ avg_humidity }} %</div>
+        <div class="data-bar">
+          <div class="data-bar-fill bar-accent"></div>
+        </div>
+      </div>
+
+      <div id="iqtll" class="data-card">
+        <div class="data-label">Vibration moyenne</div>
+        <div class="data-value">{{ avg_vibration }}</div>
+        <div class="data-bar">
+          <div class="data-bar-fill bar-success"></div>
+        </div>
+      </div>
+      
+      </div>
+
+      <!-- Chart button instead of chart container -->
+      <div class="chart-button-container">
+        <button onclick="openChartPage()" class="chart-button">
+          <span>Voir le Graphique</span>
+          <img src="https://api.iconify.design/mdi:chart-bar.svg?color=%23ffffff&width=20&height=20" alt="Chart Icon">
+        </button>
+      </div>
+
+        <div id="i3qrm" class="alerts-section">
+          <div id="ijvmq" class="alert-item alert-critical">
+            <img src="https://api.iconify.design/mdi:alert-circle.svg?color=%23dc3545&width=24&height=24" alt="Critical alert" id="id73h" class="alert-icon"/>
+            <div id="i734g" class="alert-content">
+              <h3 id="io2i6" class="alert-title">Critical: Low Inventory Alert</h3>
+              <p id="ibt5g" class="alert-description">Product SKU #1234 has fallen below minimum threshold</p>
+            </div>
+          </div>
+          <div id="iaoov" class="alert-item alert-warning">
+            <img src="https://api.iconify.design/mdi:alert.svg?color=%23ffc107&width=24&height=24" alt="Warning alert" id="ibkm5" class="alert-icon"/>
+            <div id="iqxxg" class="alert-content">
+              <h3 id="ih7fv" class="alert-title">Warning: Unusual Sales Pattern</h3>
+              <p id="izykr" class="alert-description">Region B shows 15% deviation from projected values</p></div></div>
+              <div id="i4cba" class="alert-item alert-success"><img src="https://api.iconify.design/mdi:check-circle.svg?color=%2328a745&width=24&height=24" alt="Success alert" id="i4nej" class="alert-icon"/><div id="i956s" class="alert-content"><h3 id="irieh" class="alert-title">Success: Target Achieved</h3><p id="ihwqh" class="alert-description">Q4 sales exceeded projections by 12%</p></div></div></div></div></section></section>
+            
+        <script>
+        // This script will be executed after the content is loaded
+        function initProgressBars() {
+            const temp = parseFloat("{{ avg_temperature }}");
+            const humidity = parseFloat("{{ avg_humidity }}");
+            const vibration = parseFloat("{{ avg_vibration }}");
+
+            // Update the progress bars with actual values
+            document.querySelector('.bar-primary').style.width = `${Math.min(temp, 100)}%`;
+            document.querySelector('.bar-accent').style.width = `${Math.min(humidity, 100)}%`;
+            document.querySelector('.bar-success').style.width = `${Math.min(vibration * 10, 100)}%`;
+        }
+
+        function openChartPage() {
+            const temp = "{{ avg_temperature }}";
+            const humidity = "{{ avg_humidity }}";
+            const vibration = "{{ avg_vibration }}";
+            const title = "{{ excel_title }}";
+            
+            const url = `/chart?temp=${temp}&humidity=${humidity}&vibration=${vibration}&title=${encodeURIComponent(title)}`;
+            window.open(url, '_blank');
+        }
+
+        // Initialize progress bars when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initProgressBars();
+        });
+    </script>
+</body>
+</html>
